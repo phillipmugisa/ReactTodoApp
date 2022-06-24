@@ -15,7 +15,6 @@ export const AppContextProvider = (props) => {
   const handleTaskChange = (task) => {
     if (task === null) {
       setTasks(null);
-      localStorage.setItem("tasks", null);
     } else {
       if (task.status === "complete") {
         setTasks((tasks) => [
@@ -32,10 +31,11 @@ export const AppContextProvider = (props) => {
           setTasks((tasks) => [task, ...tasks]);
         }
       }
-      localStorage.setItem("tasks", JSON.stringify(tasks));
     }
   };
-  useEffect(() => {}, [tasks]);
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <AppContext.Provider

@@ -21,7 +21,9 @@ const RecentTasks = () => {
         </ul>
         {/* task Card */}
         {tasks &&
-          tasks.map((task) => <TaskCard key={task.created_on} {...task} />)}
+          tasks.map((task) => (
+            <TaskCard key={`${task.created_on} - ${task.name}`} {...task} />
+          ))}
         {/* No recent items */}
         {!tasks && <p className="error-msg">New Recent Tasks Found.</p>}
       </div>
