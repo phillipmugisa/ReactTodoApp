@@ -1,5 +1,5 @@
 // react
-import React, { useContext, useState, useLayoutEffect, useRef } from "react";
+import React, { useContext, useState, useRef } from "react";
 
 // context
 import { AppContext } from "../hooks/appContext";
@@ -12,7 +12,7 @@ const TaskCardInput = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (task == null && task === "" && task === undefined) {
+    if (task == null && /([^\s])/.test(task) && task === undefined) {
       return;
     }
 
@@ -26,16 +26,12 @@ const TaskCardInput = () => {
   };
 
   const handleEnterPress = (e) => {
-    if (e.key === "Enter") {
+    if (!task) return;
+    if (e.key === "Enter" && /([^\s])/.test(task)) {
+      console.log(task);
       handleSubmit(e);
     }
   };
-
-  useLayoutEffect(() => {
-    window.addEventListener("keydown", handleEnterPress);
-
-    return window.removeEventListener("keydown", () => {});
-  }, []);
 
   return (
     <form
@@ -51,6 +47,8 @@ const TaskCardInput = () => {
           id=""
           placeholder="Create New Task"
           onChange={(e) => setTask(e.target.value)}
+          onKeyDown={handleEnterPress}
+          required={true}
         />
       </div>
       <div className="form-group grid">
